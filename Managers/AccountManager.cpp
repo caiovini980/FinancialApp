@@ -42,7 +42,7 @@ Account AccountManager::CreateNewAccount(std::string& userName)
 
 void AccountManager::CheckSavedAccounts()
 {
-
+    // just for test
 }
 
 void AccountManager::AddAccountToDatabase(Account& account, std::fstream& file)
