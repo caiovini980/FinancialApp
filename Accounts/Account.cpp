@@ -26,10 +26,10 @@ void Account::SetupNewAccount(std::string& userName, float amountToStore)
 
 void Account::AddMoney(float amountToAdd)
 {
-    std::cout << "Amount stored: " << amountStored << " - Amount to add: " << amountToAdd << "\n";
+    //std::cout << "Amount stored: " << amountStored << " - Amount to add: " << amountToAdd << "\n";
     
     amountStored += amountToAdd;
-    std::cout << "Amount added successfully\n";
+    std::cout << "\nAmount added successfully\n";
     std::cout << "New amount stored is R$" << amountStored << "\n\n";
 }
 

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "Managers/AccountManager.h"
+#include "Managers/DataManager.hpp"
 
 void ExecuteOperation(Account& account, std::string& username, float choice)
 {
@@ -29,7 +30,7 @@ void ExecuteOperation(Account& account, std::string& username, float choice)
 
 void GetChoice(std::string& name, int& choice)
 {
-    //system("clear");
+    system("cls");
     
     std::cout << "Great to have you here " << name << ", how can I help you?\n";
     std::cout << "1 - Add money to my account.\n";
@@ -37,7 +38,7 @@ void GetChoice(std::string& name, int& choice)
     std::cout << "3 - Quit application.\n";
     std::cin >> choice;
     
-    system("clear");
+    system("cls");
 }
 
 int main(int argc, const char * argv[])
@@ -50,6 +51,7 @@ int main(int argc, const char * argv[])
     std::cin >> _name;
     
     AccountManager accountManager;
+    DataManager dataManager;
     Account userAccount = accountManager.CreateNewAccount(_name);
     
     // execute loop
@@ -57,9 +59,12 @@ int main(int argc, const char * argv[])
     {
         GetChoice(_name, _choice);
         ExecuteOperation(userAccount, _name, _choice);
-        //std::cin >> aux;
-        //system("pause");
+        system("pause");
     }
-    
+
+    std::cout << "Saving data...\n";
+    //accountManager.AddAccountToDatabase(userAccount);
+    dataManager.AddToDatabase(userAccount);
+    std::cout << "Exiting FinancialApp...\n";
     return 0;
 }
