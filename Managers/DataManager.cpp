@@ -4,64 +4,59 @@ DataManager::DataManager(){}
 
 void DataManager::AddToDatabase(Account& account)
 {
-    std::fstream dataFile("Accounts.txt", std::ios_base::in | std::ios_base::out);
-    dataFile.open("Accounts.txt");
+    // open for writing
+    std::fstream writingFile;
+    writingFile.open("Accounts.txt", std::ios::app);
 
-    std::cout << "Opening file..."<< "\n";
-    if (dataFile.is_open())
+    std::cout << "Opening file for writing...\n";
+    if (writingFile.is_open())
     {
-        std::cout << "Adding account to the database...\n";
+        std::cout << "Updating account on the database...\n";
         std::string userData = account.GetAccountOwner() + " = " + std::to_string(account.GetAmountStored()) + "\n";
         std::cout << userData;
 
-        dataFile << userData;
-        //dataFile.write(userData, std::strlen(userData));
-    }
-    else
-    {
-        std::cout << "ERROR to open data file!\n\n";
-    }
+        writingFile << userData; 
+    }      
 
-    std::cout << "\nClosing file..." << "\n";
-    dataFile.close();
-    system("pause");
+    std::cout << "Closing file for writing...\n";
+    writingFile.close();
 }
 
-Account DataManager::CheckAccountOnDatabase(Account& account)
+Account* DataManager::CheckAccountOnDatabase(std::string& userName)
 {
-    // create a file to save account data
-    /*if (dataFile.is_open())
-    std::fstream dataFile("Accounts.txt", std::fstream::app);
-    dataFile.open("Accounts.txt");
-
-    // check if already have this accoun t saved on the file
-    // if yes, use this account
-    // if not, create a new one
+    // open for reading
     std::string line;
-    std::cout << "Trying to open the data file!\n";
-    if (dataFile.is_open())
-    {
-        std::cout << "Is Open!\n";
-        while (std::getline(dataFile, line))
-        {
-            // generate the first substring based on the position of the delimiter, in this case: "="
-            std::string auxName = line.substr(0, line.find(" = "));
+    std::fstream readingFile;
+    readingFile.open("Accounts.txt", std::ios::in);
 
+    std::cout << "Opening file for reading..."<< "\n";
+    if (readingFile.is_open())
+    {
+        // check if have user saved
+        while (std::getline(readingFile, line))
+        {
+            std::string auxName = line.substr(0, line.find(" = "));
             std::cout << "Line: " << line << "\n"; //<< "\nauxName: " << auxName;
 
+            // if yes, return the saved user
             if (auxName == userName)
             {
                 Account existingAccount;
-                std::string amountInString = line.substr(1, line.find(" = "));
+                Account* pointerToAccount = &existingAccount;
+
+                std::string amountInString = line.substr(line.find(" = ") + 3); // change to index to get the amount saved
+                std::cout << "Amount saved: " << amountInString << "\n";
                 float amountToAdd = std::stof(amountInString);
 
                 existingAccount.SetupNewAccount(userName, amountToAdd);
-                dataFile.close();
-                return existingAccount;
+                std::cout << "Found a account on file... Closing the file..."<< "\n";
+                readingFile.close();
+                return pointerToAccount;
             }
         }
 
-        std::cout << "Can't find " << userName << " on the database, closing the file...\n";
-        dataFile.close();
-    }*/
+        std::cout << "Closing file for reading..."<< "\n";
+        readingFile.close();
+        return NULL;
+    }
 }

@@ -5,14 +5,20 @@ AccountManager::AccountManager() {}
 
 Account AccountManager::CreateNewAccount(std::string& userName)
 {
-    std::cout << "Creating a new account for " << userName << "\n";
-    system("pause");
+    DataManager dataManager;
+    Account* accountSaved = dataManager.CheckAccountOnDatabase(userName);
+    
+    if (accountSaved == nullptr)
+    {
+        std::cout << "Creating a new account for " << userName << "\n";
+        system("pause");
 
-    //this->AddAccountToDatabase(newAccount, dataFile);
-    Account newAccount;
+        Account newAccount;
+        newAccount.SetupNewAccount(userName);
+        return newAccount;
+    }
 
-    newAccount.SetupNewAccount(userName);
-    return newAccount;
+    std::cout << "Found an existing account saved!\n";
 }
 
 void AccountManager::CheckSavedAccounts()

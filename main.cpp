@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <thread>
 #include "Managers/AccountManager.h"
 #include "Managers/DataManager.hpp"
 
@@ -41,6 +42,14 @@ void GetChoice(std::string& name, int& choice)
     system("cls");
 }
 
+void CloseApp(DataManager& dataManager, Account& userAccount)
+{
+    std::cout << "Saving data...\n";
+    //accountManager.AddAccountToDatabase(userAccount);
+    dataManager.AddToDatabase(userAccount);
+    std::cout << "Exiting FinancialApp...\n";
+}
+
 int main(int argc, const char * argv[])
 {
     std::string _name = "";
@@ -57,14 +66,14 @@ int main(int argc, const char * argv[])
     // execute loop
     while (_choice != 3)
     {
+        std::cout << "Entering loop...\n";
         GetChoice(_name, _choice);
         ExecuteOperation(userAccount, _name, _choice);
         system("pause");
     }
 
-    std::cout << "Saving data...\n";
-    //accountManager.AddAccountToDatabase(userAccount);
-    dataManager.AddToDatabase(userAccount);
-    std::cout << "Exiting FinancialApp...\n";
+    //std::thread closeThread(CloseApp, dataManager, userAccount);
+    //closeThread.join();
+    CloseApp(dataManager, userAccount);
     return 0;
 }

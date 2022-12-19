@@ -12,7 +12,7 @@ class DataManager
 public:
 	DataManager();
 	void AddToDatabase(Account& account);
-	Account CheckAccountOnDatabase(Account& account);
+	Account* CheckAccountOnDatabase(std::string& userName);
 
 private:
 
